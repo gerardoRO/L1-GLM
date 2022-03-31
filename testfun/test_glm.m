@@ -24,8 +24,12 @@ function fig = test_glm(EstParams, Data)
     subplot (6, 2, [1 3]);
     imagesc(strfUP);axis xy
     caxis([-max(abs(strfUP(:))) max(abs(strfUP(:)))]);
-    set(gca,'YTick',[15 30 45 60]);
-    set(gca,'YTickLabel',{'2';'4';'6';'8'});
+    
+    yindx = 1:size(strfUP,1);
+    findx = linspace(0,34,size(strfUP,1));
+    
+    set(gca,'YTick',yindx(1:2:end));
+    set(gca,'YTickLabel',findx(1:2:end));
     ylabel('Frequency (kHz)');
     xlabel('Time before spike (ms)');
     text(50,56, 'learned STRF');

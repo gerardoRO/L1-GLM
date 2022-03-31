@@ -17,7 +17,7 @@ function EstParams = train_model(Data)
     resp = get_long_resp(Data);
     
     % Subsample the frquency dimension of the stimulus
-    stim = stim(1:3:60,:);
+    stim = stim(1:3:size(Data(1).spectrogram,1),:);
 
     % Define some additional parameters
     tbin    = 3;                % time bin in ms
@@ -27,11 +27,12 @@ function EstParams = train_model(Data)
     
     if ntshist ~= 0
         model = 'glm';    
-    else model = 'ln';
+    else
+        model = 'ln';
     end
     
     % Initialize parameters: set all parameters to be initially 0
-    [f N]= size(stim);   
+    [f, N]= size(stim);   
     nVariables = 1 + ntstrf * f + ntshist;
     w_init = zeros(nVariables, 1);
 
@@ -108,7 +109,9 @@ function EstParams = train_model(Data)
             optimFunc = @l1generalunconstrainedapx;
             options = global_options;
             options.solver = 2; % 2nd-Order short-cut method
-
+            
+            load('C:/Users/rodr0283/Documents/GitHub/SONICLab/Decoding/calabrese_datasets/calabrese_post_mine_ala_calabrese.mat')
+            %loss = @(theta)loglikelihood_poissGLM(theta,X,sps(:,1),dt,'reg_func',reg_func,'cost_vals',cost_vals,'approach',mle_approach);
             wSmoothL1sc = optimFunc(loss,w_init,CVect,options,lossArgs{:});
 
             bias_e  = wSmoothL1sc(1);

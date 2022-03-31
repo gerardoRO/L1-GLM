@@ -12,9 +12,10 @@ addpath(genpath(pwd));
 tic;
 disp('Estimating model parameters ...')
 load Data.mat
-K = train_model(Data);
+load('C:\Users\rodr0283\Documents\GitHub\SONICLab\Decoding\calabrese_datasets\myData.mat')
+K = train_model(myData);
 
 % test model and plot results
 disp('Predicting response ...')
-fig =  test_glm(K, Data);
-toc;
+fig =  test_glm(K, myData);
+toc
